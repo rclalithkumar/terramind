@@ -1,6 +1,6 @@
 import Container from "@/components/common/Container";
 import Badge from "@/components/ui/Badge";
-import CommandBar from "./CommandBar";
+import ScenarioInput from "./ScenarioInput";
 import EarthCanvas from "@/components/earth/EarthCanvas";
 import { motion } from "framer-motion";
 export default function Hero() {
@@ -130,7 +130,7 @@ export default function Hero() {
           </div>
 
 
-          <CommandBar />
+          <ScenarioInput />
 
 
         </div>

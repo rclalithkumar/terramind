@@ -46,7 +46,13 @@ setParsing(false);
     
 
     return () => clearTimeout(timer);
-  }, [scenario, setParsedScenario, setParsing, setSelectedLocation]);
+  }, [
+  scenario,
+  setParsedScenario,
+  setParsing,
+  setSelectedLocation,
+  setSimulationResult,
+]);
 
   return (
     <motion.div

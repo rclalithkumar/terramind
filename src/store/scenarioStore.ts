@@ -10,6 +10,7 @@ interface ParsedScenario {
 interface ScenarioStore {
   scenario: string;
   parsedScenario: ParsedScenario | null;
+  selectedLocation: string | null;
 
   isParsing: boolean;
   isSimulating: boolean;
@@ -17,6 +18,8 @@ interface ScenarioStore {
   setScenario: (scenario: string) => void;
 
   setParsedScenario: (parsed: ParsedScenario | null) => void;
+
+  setSelectedLocation: (location: string | null) => void;
 
   setParsing: (value: boolean) => void;
 
@@ -28,7 +31,7 @@ interface ScenarioStore {
 export const useScenarioStore = create<ScenarioStore>((set) => ({
   scenario: "",
   parsedScenario: null,
-
+  selectedLocation: null,
   isParsing: false,
   isSimulating: false,
 
@@ -37,6 +40,9 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
 
   setParsedScenario: (parsedScenario) =>
     set({ parsedScenario }),
+
+  setSelectedLocation: (selectedLocation) =>
+  set({ selectedLocation }),
 
   setParsing: (isParsing) =>
     set({ isParsing }),
@@ -48,6 +54,7 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
     set({
       scenario: "",
       parsedScenario: null,
+      selectedLocation: null,
       isParsing: false,
       isSimulating: false,
     }),

@@ -124,7 +124,7 @@ export default function Hero() {
 
             {/* 3D Earth */}
             <div className="relative h-full w-full">
-              <EarthCanvas />
+              <EarthCanvas selectedLocation={null} />
             </div>
 
           </div>

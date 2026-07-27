@@ -1,63 +1,85 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { useEffect } from "react";
+
 import Earth from "./Earth";
 import Space from "./Space";
 import Atmosphere from "./Atmosphere";
 import Marker from "./Marker";
+
 import { LOCATIONS } from "./locations";
 import { latLngToVector3 } from "@/utils/latLngToVector3";
 
-export default function EarthCanvas(){
+interface EarthCanvasProps {
+  selectedLocation?: string | null;
+}
 
-  const bengaluru = LOCATIONS.bengaluru;
+export default function EarthCanvas({
+  selectedLocation = null,
+}: EarthCanvasProps) {
+  useEffect(() => {
+    if (!selectedLocation) return;
 
-const markerPosition = latLngToVector3(
-  bengaluru.lat,
-  bengaluru.lng,
-  1.02
-);
+    console.log("Earth focusing on:", selectedLocation);
+  }, [selectedLocation]);
 
- return (
-   <Canvas
-    camera={{
-      position:[0,0,3]
-    }}
-   >
-    <Space/>
+  const location =
+    selectedLocation &&
+    LOCATIONS[selectedLocation.toLowerCase() as keyof typeof LOCATIONS];
 
-    <ambientLight intensity={0.35} />
+  const markerPosition = location
+    ? latLngToVector3(location.lat, location.lng, 1.02)
+    : null;
 
-    <directionalLight
-      position={[5, 3, 5]}
-      intensity={2.2}
-    />
+  return (
+    <Canvas
+      camera={{
+        position: [0, 0, 3],
+        fov: 45,
+      }}
+    >
+      {/* Space Background */}
+      <Space />
 
-    <directionalLight
-      position={[-5, -2, -5]}
-      intensity={0.4}
-      color="#60a5fa"
-    />
+      {/* Lighting */}
+      <ambientLight intensity={0.35} />
 
-    <pointLight
-      position={[0, 2, 3]}
-      intensity={0.8}
-      color="#818cf8"
-    />
+      <directionalLight
+        position={[5, 3, 5]}
+        intensity={2.2}
+      />
 
-    <Earth>
-  <Marker
-    position={markerPosition}
-    label="Bengaluru"
-  />
-</Earth>
-     
-     <Atmosphere/>
+      <directionalLight
+        position={[-5, -2, -5]}
+        intensity={0.4}
+        color="#60a5fa"
+      />
 
-    <OrbitControls
-      enablePan={false}
-    />
+      <pointLight
+        position={[0, 2, 3]}
+        intensity={0.8}
+        color="#818cf8"
+      />
 
-   </Canvas>
- );
+      {/* Earth */}
+      <Earth />
 
+      {/* Atmosphere */}
+      <Atmosphere />
+
+      {/* Dynamic Marker */}
+      {markerPosition && (
+        <Marker position={markerPosition} />
+      )}
+
+      {/* Camera Controls */}
+      <OrbitControls
+        enablePan={false}
+        enableZoom
+        enableRotate
+        minDistance={2.2}
+        maxDistance={5}
+      />
+    </Canvas>
+  );
 }

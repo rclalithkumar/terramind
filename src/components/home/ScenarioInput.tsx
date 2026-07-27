@@ -10,12 +10,13 @@ export default function ScenarioInput() {
   const navigate = useNavigate();
 
   const {
-    scenario,
-    setScenario,
-    parsedScenario,
-    setParsedScenario,
-    setParsing,
-  } = useScenarioStore();
+  scenario,
+  setScenario,
+  parsedScenario,
+  setParsedScenario,
+  setParsing,
+  setSelectedLocation,
+} = useScenarioStore();
 
   useEffect(() => {
     if (!scenario.trim()) {
@@ -29,11 +30,12 @@ export default function ScenarioInput() {
       const parsed = parseScenario(scenario);
 
       setParsedScenario(parsed);
+      setSelectedLocation(parsed.location ?? null);
       setParsing(false);
     }, 700);
 
     return () => clearTimeout(timer);
-  }, [scenario, setParsedScenario, setParsing]);
+  }, [scenario, setParsedScenario, setParsing, setSelectedLocation]);
 
   return (
     <motion.div

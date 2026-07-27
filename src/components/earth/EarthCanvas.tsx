@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useEffect } from "react";
+import { MathUtils } from "three";
 
 import Earth from "./Earth";
 import Space from "./Space";
@@ -25,7 +26,13 @@ export default function EarthCanvas({
 
   const location =
     selectedLocation &&
-    LOCATIONS[selectedLocation.toLowerCase() as keyof typeof LOCATIONS];
+    LOCATIONS[
+      selectedLocation.toLowerCase() as keyof typeof LOCATIONS
+    ];
+
+  const targetRotationY = location
+    ? MathUtils.degToRad(-location.lng)
+    : 0;
 
   const markerPosition = location
     ? latLngToVector3(location.lat, location.lng, 1.02)
@@ -41,7 +48,7 @@ export default function EarthCanvas({
       {/* Space Background */}
       <Space />
 
-      {/* Lighting */}
+      {/* Lights */}
       <ambientLight intensity={0.35} />
 
       <directionalLight
@@ -61,18 +68,19 @@ export default function EarthCanvas({
         color="#818cf8"
       />
 
-      {/* Earth */}
-      <Earth />
+      {/* Earth + Children */}
+      <Earth targetRotationY={targetRotationY}>
+        <Atmosphere />
 
-      {/* Atmosphere */}
-      <Atmosphere />
+        {markerPosition && (
+          <Marker
+            position={markerPosition}
+            label={selectedLocation ?? undefined}
+          />
+        )}
+      </Earth>
 
-      {/* Dynamic Marker */}
-      {markerPosition && (
-        <Marker position={markerPosition} />
-      )}
-
-      {/* Camera Controls */}
+      {/* Controls */}
       <OrbitControls
         enablePan={false}
         enableZoom

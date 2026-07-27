@@ -3,7 +3,19 @@ import { OrbitControls } from "@react-three/drei";
 import Earth from "./Earth";
 import Space from "./Space";
 import Atmosphere from "./Atmosphere";
+import Marker from "./Marker";
+import { LOCATIONS } from "./locations";
+import { latLngToVector3 } from "@/utils/latLngToVector3";
+
 export default function EarthCanvas(){
+
+  const bengaluru = LOCATIONS.bengaluru;
+
+const markerPosition = latLngToVector3(
+  bengaluru.lat,
+  bengaluru.lng,
+  1.02
+);
 
  return (
    <Canvas
@@ -32,7 +44,12 @@ export default function EarthCanvas(){
       color="#818cf8"
     />
 
-    <Earth/>
+    <Earth>
+  <Marker
+    position={markerPosition}
+    label="Bengaluru"
+  />
+</Earth>
      
      <Atmosphere/>
 

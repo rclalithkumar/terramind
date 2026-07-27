@@ -1,20 +1,20 @@
-import { useLoader } from "@react-three/fiber";
-import { TextureLoader } from "three";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
+import { TextureLoader, type Mesh } from "three";
 import { useRef } from "react";
-import type { Mesh } from "three";
+
 import earthDay from "@/assets/textures/earth-day.jpg";
 
-export default function Earth() {
+interface EarthProps {
+  children?: React.ReactNode;
+}
 
+export default function Earth({ children }: EarthProps) {
   const earthRef = useRef<Mesh>(null);
-
 
   const texture = useLoader(
     TextureLoader,
     earthDay
   );
-
 
   useFrame((state) => {
     if (!earthRef.current) return;
@@ -25,18 +25,19 @@ export default function Earth() {
       Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
   });
 
-
   return (
-    <mesh ref={earthRef}>
+    <group>
 
-      <sphereGeometry
-        args={[1,128,128]}
-      />
+      <mesh ref={earthRef}>
+        <sphereGeometry args={[1, 128, 128]} />
 
-      <meshStandardMaterial
-        map={texture}
-      />
+        <meshStandardMaterial
+          map={texture}
+        />
+      </mesh>
 
-    </mesh>
+      {children}
+
+    </group>
   );
 }

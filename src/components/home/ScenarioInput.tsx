@@ -1,36 +1,39 @@
-import { useScenarioStore } from "@/store/scenarioStore";
-import { Sparkles, Send } from "lucide-react";
-import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Sparkles, Send } from "lucide-react";
+
+import { useScenarioStore } from "@/store/scenarioStore";
 import { parseScenario } from "@/utils/scenarioParser";
 
 export default function ScenarioInput() {
+  const navigate = useNavigate();
+
   const {
-  scenario,
-  setScenario,
-  parsedScenario,
-  setParsedScenario,
-  setParsing,
-} = useScenarioStore();
+    scenario,
+    setScenario,
+    parsedScenario,
+    setParsedScenario,
+    setParsing,
+  } = useScenarioStore();
 
   useEffect(() => {
-  if (!scenario.trim()) {
-    setParsedScenario(null);
-    return;
-  }
+    if (!scenario.trim()) {
+      setParsedScenario(null);
+      return;
+    }
 
-  setParsing(true);
+    setParsing(true);
 
-  const timer = setTimeout(() => {
-    const parsed = parseScenario(scenario);
+    const timer = setTimeout(() => {
+      const parsed = parseScenario(scenario);
 
-    setParsedScenario(parsed);
+      setParsedScenario(parsed);
+      setParsing(false);
+    }, 700);
 
-    setParsing(false);
-  }, 700);
-
-  return () => clearTimeout(timer);
-}, [scenario, setParsedScenario, setParsing]);
+    return () => clearTimeout(timer);
+  }, [scenario, setParsedScenario, setParsing]);
 
   return (
     <motion.div
@@ -41,14 +44,15 @@ export default function ScenarioInput() {
         mt-10
         w-full
         max-w-3xl
+        overflow-hidden
         rounded-3xl
         border
         border-white/10
         bg-white/5
         backdrop-blur-xl
-        overflow-hidden
       "
     >
+      {/* Input */}
       <div className="flex items-start gap-4 p-5">
         <Sparkles className="mt-1 h-5 w-5 text-indigo-400" />
 
@@ -61,81 +65,80 @@ export default function ScenarioInput() {
             w-full
             resize-none
             bg-transparent
-            outline-none
             text-white
+            outline-none
             placeholder:text-slate-500
           "
         />
-
-        {parsedScenario && (
-  <div className="flex flex-wrap gap-2 border-t border-white/10 px-5 py-3">
-
-    {parsedScenario.location && (
-      <span className="rounded-full bg-indigo-500/20 px-3 py-1 text-xs">
-        📍 {parsedScenario.location}
-      </span>
-    )}
-
-    {parsedScenario.event && (
-      <span className="rounded-full bg-cyan-500/20 px-3 py-1 text-xs">
-        🌧 {parsedScenario.event}
-      </span>
-    )}
-
-    {parsedScenario.timeframe && (
-      <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs">
-        📅 {parsedScenario.timeframe}
-      </span>
-    )}
-
-    <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs">
-      🧠 {parsedScenario.confidence}% confidence
-    </span>
-
-  </div>
-)}
-
-        <div className="border-t border-white/10 px-5 py-3">
-
-            <button
-                onClick={() =>
-                setScenario(
-                    "What if Bengaluru receives 300 mm rainfall tomorrow?"
-                )
-                }
-                className="
-                rounded-full
-                border
-                border-white/10
-                px-3
-                py-1
-                text-xs
-                text-slate-400
-                transition
-                hover:border-indigo-400
-                hover:text-white
-                "
-            >
-                Try an example
-            </button>
-
-            </div>
       </div>
-      
 
+      {/* AI Parsing Chips */}
+      {parsedScenario && (
+        <div className="flex flex-wrap gap-2 border-t border-white/10 px-5 py-3">
+          {parsedScenario.location && (
+            <span className="rounded-full bg-indigo-500/20 px-3 py-1 text-xs">
+              📍 {parsedScenario.location}
+            </span>
+          )}
 
+          {parsedScenario.event && (
+            <span className="rounded-full bg-cyan-500/20 px-3 py-1 text-xs">
+              🌧 {parsedScenario.event}
+            </span>
+          )}
+
+          {parsedScenario.timeframe && (
+            <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs">
+              📅 {parsedScenario.timeframe}
+            </span>
+          )}
+
+          <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs">
+            🧠 {parsedScenario.confidence}% confidence
+          </span>
+        </div>
+      )}
+
+      {/* Example Prompt */}
+      <div className="border-t border-white/10 px-5 py-3">
+        <button
+          onClick={() =>
+            setScenario(
+              "What if Bengaluru receives 300 mm rainfall tomorrow?"
+            )
+          }
+          className="
+            rounded-full
+            border
+            border-white/10
+            px-3
+            py-1
+            text-xs
+            text-slate-400
+            transition
+            hover:border-indigo-400
+            hover:text-white
+          "
+        >
+          Try an example
+        </button>
+      </div>
+
+      {/* Footer */}
       <div className="flex items-center justify-between border-t border-white/10 px-5 py-3">
         <div className="flex flex-col">
-            <span className="text-sm text-slate-400">
-                Ctrl + Enter to simulate
-            </span>
+          <span className="text-sm text-slate-400">
+            Ctrl + Enter to simulate
+          </span>
 
-            <span className="text-xs text-slate-500">
-                {scenario.length}/500
-            </span>
-            </div>
+          <span className="text-xs text-slate-500">
+            {scenario.length}/500
+          </span>
+        </div>
 
-        <button disabled={!scenario.trim()}
+        <button
+          disabled={!scenario.trim()}
+          onClick={() => navigate("/workspace")}
           className="
             flex
             items-center
@@ -146,15 +149,12 @@ export default function ScenarioInput() {
             py-2
             text-sm
             transition
-
+            hover:bg-indigo-400
             disabled:cursor-not-allowed
             disabled:opacity-40
-
-            hover:bg-indigo-400
-            "
+          "
         >
           Simulate
-
           <Send size={16} />
         </button>
       </div>

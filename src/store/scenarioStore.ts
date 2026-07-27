@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+import type { SimulationResult } from "@/features/simulation/engine/simulationTypes";
 interface ParsedScenario {
   location?: string;
   event?: string;
@@ -8,9 +8,16 @@ interface ParsedScenario {
 }
 
 interface ScenarioStore {
+  
   scenario: string;
   parsedScenario: ParsedScenario | null;
   selectedLocation: string | null;
+
+  simulationResult: SimulationResult | null;
+
+setSimulationResult: (
+  result: SimulationResult | null
+) => void;
 
   isParsing: boolean;
   isSimulating: boolean;
@@ -32,6 +39,7 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
   scenario: "",
   parsedScenario: null,
   selectedLocation: null,
+  simulationResult: null,
   isParsing: false,
   isSimulating: false,
 
@@ -44,6 +52,9 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
   setSelectedLocation: (selectedLocation) =>
   set({ selectedLocation }),
 
+  setSimulationResult: (simulationResult) =>
+  set({ simulationResult }),
+
   setParsing: (isParsing) =>
     set({ isParsing }),
 
@@ -55,6 +66,7 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
       scenario: "",
       parsedScenario: null,
       selectedLocation: null,
+      simulationResult: null,
       isParsing: false,
       isSimulating: false,
     }),

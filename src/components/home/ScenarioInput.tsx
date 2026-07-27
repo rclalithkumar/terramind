@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Sparkles, Send } from "lucide-react";
-
+import { runSimulation } from "@/features/simulation/engine/simulationEngine";
 import { useScenarioStore } from "@/store/scenarioStore";
 import { parseScenario } from "@/utils/scenarioParser";
 
@@ -10,13 +10,16 @@ export default function ScenarioInput() {
   const navigate = useNavigate();
 
   const {
-  scenario,
-  setScenario,
-  parsedScenario,
-  setParsedScenario,
-  setParsing,
-  setSelectedLocation,
+    scenario,
+    setScenario,
+    parsedScenario,
+    setParsedScenario,
+    setParsing,
+    setSelectedLocation,
+    setSimulationResult,
 } = useScenarioStore();
+
+
 
   useEffect(() => {
     if (!scenario.trim()) {
@@ -29,10 +32,18 @@ export default function ScenarioInput() {
     const timer = setTimeout(() => {
       const parsed = parseScenario(scenario);
 
-      setParsedScenario(parsed);
-      setSelectedLocation(parsed.location ?? null);
-      setParsing(false);
+setParsedScenario(parsed);
+
+setSelectedLocation(parsed.location ?? null);
+
+const result = runSimulation(scenario);
+
+setSimulationResult(result);
+
+setParsing(false);
     }, 700);
+
+    
 
     return () => clearTimeout(timer);
   }, [scenario, setParsedScenario, setParsing, setSelectedLocation]);

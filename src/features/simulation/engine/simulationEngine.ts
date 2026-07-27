@@ -1,39 +1,66 @@
-import type {
-  SimulationScenario,
-  SimulationResult,
-} from "./scenarioTypes";
+import type { SimulationResult } from "./simulationTypes";
 
-export async function simulateScenario(
-  scenario: SimulationScenario
-): Promise<SimulationResult> {
+export function runSimulation(
+  scenario: string
+): SimulationResult {
 
-  await new Promise((r) => setTimeout(r, 1800));
+  const text = scenario.toLowerCase();
+
+  if (text.includes("rain")) {
+    return {
+      title: "Heavy Rainfall",
+      severity: "Medium",
+      probability: 82,
+      affectedPopulation: 350000,
+      estimatedLoss: "$18M",
+      timeline: [
+        "Rain begins",
+        "Water accumulation",
+        "Traffic congestion",
+        "Localized flooding"
+      ],
+      recommendations: [
+        "Issue public alerts",
+        "Deploy drainage teams",
+        "Avoid low-lying roads"
+      ]
+    };
+  }
+
+  if (text.includes("flood")) {
+    return {
+      title: "Flood Scenario",
+      severity: "High",
+      probability: 91,
+      affectedPopulation: 820000,
+      estimatedLoss: "$140M",
+      timeline: [
+        "River overflow",
+        "Urban flooding",
+        "Power disruption",
+        "Recovery begins"
+      ],
+      recommendations: [
+        "Evacuate affected zones",
+        "Open emergency shelters",
+        "Suspend public transport"
+      ]
+    };
+  }
 
   return {
-    title: `${scenario.event} Simulation`,
-
-    summary:
-      `Simulated impact for ${scenario.location}.`,
-
-    confidence: 94,
-
-    impacts: [
-      "Urban flooding expected",
-      "Traffic disruption",
-      "Power outage risk",
-    ],
-
-    recommendations: [
-      "Deploy emergency teams",
-      "Issue public warning",
-      "Monitor drainage systems",
-    ],
-
+    title: "Generic Simulation",
+    severity: "Low",
+    probability: 40,
+    affectedPopulation: 5000,
+    estimatedLoss: "$1M",
     timeline: [
-      "Hour 0",
-      "Hour 6",
-      "Hour 12",
-      "Hour 24",
+      "Monitoring",
+      "Assessment",
+      "Response"
     ],
+    recommendations: [
+      "Continue monitoring"
+    ]
   };
-}
+} 

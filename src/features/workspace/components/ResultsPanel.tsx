@@ -1,35 +1,68 @@
+import { useScenarioStore } from "@/store/scenarioStore";
 export default function ResultsPanel() {
+    const simulationResult = useScenarioStore(
+  (state) => state.simulationResult
+);
+
+if (!simulationResult) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/5 p-5">
-      <h2 className="text-xl font-semibold">
-        AI Analysis
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <h2 className="text-xl font-semibold text-white">
+        Simulation Results
       </h2>
 
-      <div className="mt-5 space-y-4">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <h3 className="font-medium text-indigo-400">
-            Summary
-          </h3>
-
-          <p className="mt-2 text-slate-300">
-            Expected urban flooding in low-lying areas with
-            moderate disruption to transportation.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <h3 className="font-medium text-indigo-400">
-            Potential Impacts
-          </h3>
-
-          <ul className="mt-2 list-disc space-y-2 pl-5 text-slate-300">
-            <li>Road closures</li>
-            <li>Power outage risk</li>
-            <li>Hospital accessibility affected</li>
-            <li>Traffic congestion</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <p className="mt-4 text-slate-400">
+        Run a simulation to see the results.
+      </p>
+    </div>
   );
+}
+    return (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+    <h2 className="mb-6 text-xl font-semibold text-white">
+      Simulation Results
+    </h2>
+
+    <div className="space-y-4">
+      <div>
+        <p className="text-sm text-slate-400">Scenario</p>
+        <p className="text-lg font-semibold text-white">
+          {simulationResult.title}
+        </p>
+      </div>
+
+      <div>
+        <p className="text-sm text-slate-400">Severity</p>
+        <p className="text-red-400">
+          {simulationResult.severity}
+        </p>
+      </div>
+
+      <div>
+        <p className="text-sm text-slate-400">Probability</p>
+        <p className="text-cyan-400">
+          {simulationResult.probability}%
+        </p>
+      </div>
+
+      <div>
+        <p className="text-sm text-slate-400">
+          Affected Population
+        </p>
+        <p className="text-white">
+          {simulationResult.affectedPopulation.toLocaleString()}
+        </p>
+      </div>
+
+      <div>
+        <p className="text-sm text-slate-400">
+          Estimated Loss
+        </p>
+        <p className="text-amber-400">
+          {simulationResult.estimatedLoss}
+        </p>
+      </div>
+    </div>
+  </div>
+);
 }

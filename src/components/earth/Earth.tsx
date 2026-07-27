@@ -16,12 +16,13 @@ export default function Earth() {
   );
 
 
-  useFrame(() => {
+  useFrame((state) => {
+    if (!earthRef.current) return;
 
-    if(earthRef.current){
-      earthRef.current.rotation.y += 0.001;
-    }
+    earthRef.current.rotation.y += 0.0015;
 
+    earthRef.current.position.y =
+      Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
   });
 
 

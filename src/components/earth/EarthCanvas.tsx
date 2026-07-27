@@ -13,18 +13,32 @@ export default function EarthCanvas(){
    >
     <Space/>
 
-    <ambientLight intensity={0.5}/>
+    <ambientLight intensity={0.35} />
 
     <directionalLight
-      position={[5,3,5]}
-      intensity={2}
+      position={[5, 3, 5]}
+      intensity={2.2}
+    />
+
+    <directionalLight
+      position={[-5, -2, -5]}
+      intensity={0.4}
+      color="#60a5fa"
+    />
+
+    <pointLight
+      position={[0, 2, 3]}
+      intensity={0.8}
+      color="#818cf8"
     />
 
     <Earth/>
      
      <Atmosphere/>
 
-    <OrbitControls/>
+    <OrbitControls
+      enablePan={false}
+    />
 
    </Canvas>
  );

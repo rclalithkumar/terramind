@@ -2,10 +2,40 @@ import Container from "@/components/common/Container";
 import Badge from "@/components/ui/Badge";
 import CommandBar from "./CommandBar";
 import EarthCanvas from "@/components/earth/EarthCanvas";
-
+import { motion } from "framer-motion";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+
+        <div
+          className="
+            absolute
+            left-1/2
+            top-20
+            h-[700px]
+            w-[700px]
+            -translate-x-1/2
+            rounded-full
+            bg-indigo-500/20
+            blur-[180px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            right-0
+            top-1/3
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-cyan-500/10
+            blur-[180px]
+          "
+        />
+
+      </div>
 
       <Container>
 
@@ -26,7 +56,13 @@ export default function Hero() {
           </Badge>
 
 
-          <h1
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 1,
+              ease: "easeOut",
+            }}
             className="
               mt-8
               max-w-5xl
@@ -38,15 +74,19 @@ export default function Hero() {
           >
             Ask Reality.
             <br />
-
             <span className="text-indigo-400">
               Simulate Tomorrow.
             </span>
+          </motion.h1>
 
-          </h1>
 
-
-          <p
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: 0.4,
+              duration: 1,
+            }}
             className="
               mt-8
               max-w-2xl
@@ -57,7 +97,7 @@ export default function Hero() {
           >
             TerraMind uses AI to simulate real-world scenarios
             and visualize possible futures.
-          </p>
+          </motion.p>
 
 
           {/* Earth */}

@@ -1,66 +1,39 @@
 import type { SimulationResult } from "./simulationTypes";
 
+import { classifyEvent } from "./eventClassifier";
+import { calculateImpact } from "./impactCalculator";
+
+
 export function runSimulation(
   scenario: string
 ): SimulationResult {
 
-  const text = scenario.toLowerCase();
+  const event = classifyEvent(scenario);
 
-  if (text.includes("rain")) {
-    return {
-      title: "Heavy Rainfall",
-      severity: "Medium",
-      probability: 82,
-      affectedPopulation: 350000,
-      estimatedLoss: "$18M",
-      timeline: [
-        "Rain begins",
-        "Water accumulation",
-        "Traffic congestion",
-        "Localized flooding"
-      ],
-      recommendations: [
-        "Issue public alerts",
-        "Deploy drainage teams",
-        "Avoid low-lying roads"
-      ]
-    };
-  }
 
-  if (text.includes("flood")) {
-    return {
-      title: "Flood Scenario",
-      severity: "High",
-      probability: 91,
-      affectedPopulation: 820000,
-      estimatedLoss: "$140M",
-      timeline: [
-        "River overflow",
-        "Urban flooding",
-        "Power disruption",
-        "Recovery begins"
-      ],
-      recommendations: [
-        "Evacuate affected zones",
-        "Open emergency shelters",
-        "Suspend public transport"
-      ]
-    };
-  }
+  const locationMatch =
+    scenario.match(
+      /in ([a-zA-Z\s]+)/
+    );
 
-  return {
-    title: "Generic Simulation",
-    severity: "Low",
-    probability: 40,
-    affectedPopulation: 5000,
-    estimatedLoss: "$1M",
-    timeline: [
-      "Monitoring",
-      "Assessment",
-      "Response"
-    ],
-    recommendations: [
-      "Continue monitoring"
-    ]
-  };
-} 
+
+  const location =
+    locationMatch?.[1] ?? "Unknown Region";
+
+
+  const timeframeMatch =
+  scenario.match(
+    /(today|tomorrow|next week|next month)/i
+  );
+
+
+const timeframe =
+  timeframeMatch?.[0] ?? "unknown";
+
+
+return calculateImpact({
+  event,
+  location,
+  timeframe,
+});
+}

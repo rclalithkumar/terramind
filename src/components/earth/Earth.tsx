@@ -1,7 +1,6 @@
 import { useFrame, useLoader } from "@react-three/fiber";
-import { TextureLoader, Group, MathUtils } from "three";
 import { useRef } from "react";
-
+import { TextureLoader, MathUtils, Group } from "three";
 import earthDay from "@/assets/textures/earth-day.jpg";
 
 interface EarthProps {
@@ -24,7 +23,7 @@ export default function Earth({
     groupRef.current.position.y =
       Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
 
-    // Smooth rotation
+    // Smooth rotation to selected location
     groupRef.current.rotation.y = MathUtils.lerp(
       groupRef.current.rotation.y,
       targetRotationY,

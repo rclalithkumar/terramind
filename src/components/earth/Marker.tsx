@@ -1,7 +1,7 @@
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Mesh } from "three";
+import type { Mesh } from "three";
 
 
 interface MarkerProps {
@@ -31,31 +31,47 @@ export default function Marker({
 }: MarkerProps) {
 
 
-  const mesh =
-    useRef<Mesh>(null);
+  const mesh = useRef<Mesh | null>(null);
+const pulse = useRef<Mesh | null>(null);
 
 
 
   useFrame(({ clock }) => {
 
-    if (!mesh.current)
-      return;
+  if (!mesh.current || !pulse.current)
+    return;
 
 
-    const scale =
-      1 +
-      Math.sin(
-        clock.elapsedTime * 4
-      ) * 0.15;
+  const t = clock.elapsedTime;
 
 
-    mesh.current.scale.set(
-      scale,
-      scale,
-      scale
-    );
+  // Main marker breathing
+  const scale =
+    1 +
+    Math.sin(t * 4) * 0.15;
 
-  });
+
+  mesh.current.scale.set(
+    scale,
+    scale,
+    scale
+  );
+
+
+  // Pulse ring animation
+  const pulseScale =
+    1 +
+    (Math.sin(t * 3) + 1) * 0.8;
+
+
+  pulse.current.scale.set(
+    pulseScale,
+    pulseScale,
+    pulseScale
+  );
+
+
+});
 
 
 
@@ -91,10 +107,28 @@ export default function Marker({
 
       </mesh>
 
+      <mesh ref={pulse}>
+
+  <ringGeometry
+    args={[
+      0.06,
+      0.09,
+      64
+    ]}
+  />
+
+  <meshBasicMaterial
+    color={color}
+    transparent
+    opacity={0.35}
+  />
+
+</mesh>
+
 
 
       <Html
-        distanceFactor={8}
+        distanceFactor={15}
       >
 
         <div
@@ -104,11 +138,12 @@ export default function Marker({
           border-white/20
           bg-black/70
           backdrop-blur-xl
-          px-3
-          py-2
-          text-xs
+          px-2
+          py-1
+          text-[10px]
           text-white
           shadow-xl
+          scale-75
           "
         >
 

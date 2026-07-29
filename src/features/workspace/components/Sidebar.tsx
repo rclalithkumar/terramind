@@ -14,36 +14,48 @@ const items = [
 
 export default function Sidebar() {
   return (
-    <aside className="h-screen border-r border-white/10 bg-[#090C1A]">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-white">
-          TerraMind
-        </h1>
+    <aside
+  className="
+    sticky
+    top-0
+    h-screen
+    w-72
+    flex-shrink-0
+    border-r
+    border-white/10
+    bg-slate-950/90
+    backdrop-blur-xl
+  "
+>
+  <div className="flex h-full flex-col p-6">
+    <h1 className="text-2xl font-bold text-white">
+      TerraMind
+    </h1>
 
-        <div className="mt-10 space-y-2">
-          {items.map(({ icon: Icon, label }) => (
-            <button
-              key={label}
-              className="
-                flex
-                w-full
-                items-center
-                gap-3
-                rounded-xl
-                px-4
-                py-3
-                text-slate-300
-                transition
-                hover:bg-white/10
-                hover:text-white
-              "
-            >
-              <Icon size={18} />
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-    </aside>
+    <div className="mt-10 space-y-2">
+      {items.map(({ icon: Icon, label }) => (
+        <button
+          key={label}
+          className="
+            flex
+            w-full
+            items-center
+            gap-3
+            rounded-xl
+            px-4
+            py-3
+            text-slate-300
+            transition
+            hover:bg-white/10
+            hover:text-white
+          "
+        >
+          <Icon size={18} />
+          {label}
+        </button>
+      ))}
+    </div>
+  </div>
+</aside>
   );
 }

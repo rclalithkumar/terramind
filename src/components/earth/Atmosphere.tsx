@@ -1,36 +1,45 @@
+import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 import { AdditiveBlending } from "three";
-
+import type { Mesh } from "three";
 
 export default function Atmosphere() {
 
-return (
+  const meshRef = useRef<Mesh>(null);
 
-  <mesh scale={[1.03,1.03,1.03]}>
+  useFrame((state) => {
 
-    <sphereGeometry
-      args={[
-        1,
-        128,
-        128
-      ]}
-    />
+    if (!meshRef.current) return;
 
-    <meshBasicMaterial
+    const material = meshRef.current.material;
 
-      color="#38bdf8"
+    if ("opacity" in material) {
 
-      transparent
+      material.opacity =
+        0.14 +
+        Math.sin(state.clock.elapsedTime * 1.5) * 0.025;
 
-      opacity={0.18}
+    }
 
-      blending={AdditiveBlending}
+  });
 
-      side={2}
 
-    />
+  return (
+    <mesh ref={meshRef} scale={1.035}>
 
-  </mesh>
+      <sphereGeometry
+        args={[1, 128, 128]}
+      />
 
-);
+      <meshBasicMaterial
+        color="#38bdf8"
+        transparent
+        opacity={0.14}
+        blending={AdditiveBlending}
+        side={2}
+        depthWrite={false}
+      />
 
+    </mesh>
+  );
 }

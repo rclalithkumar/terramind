@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import ResultMetricCard from "@/components/simulation/ResultMetricCard";
 import SeverityBadge from "@/components/simulation/SeverityBadge";
 import RiskScore from "@/components/simulation/RiskScore";
-
+import GlassPanel from "@/components/ui/GlassPanel";
 import { useScenarioStore } from "@/store/scenarioStore";
 
 
@@ -60,8 +60,7 @@ export default function ResultsPanel() {
 
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-2xl">
-
+    <GlassPanel className="p-6">
       <motion.div
         initial={{
           opacity: 0,
@@ -183,43 +182,8 @@ export default function ResultsPanel() {
 
         </div>
 
-
-
-        {/* Timeline */}
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-
-          <h3 className="mb-4 text-lg font-semibold text-white">
-            Simulation Timeline
-          </h3>
-
-
-          <div className="space-y-3">
-
-            {simulationResult.timeline.map(
-              (event, index) => (
-
-                <div
-                  key={index}
-                  className="flex items-center gap-3 text-sm text-slate-300"
-                >
-
-                  <div className="h-2 w-2 rounded-full bg-cyan-400" />
-
-                  {event}
-
-                </div>
-
-              )
-            )}
-
-          </div>
-
-        </div>
-
-
       </motion.div>
 
-    </div>
+    </GlassPanel>
   );
 }

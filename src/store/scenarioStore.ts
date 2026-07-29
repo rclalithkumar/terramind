@@ -14,6 +14,9 @@ interface ScenarioStore {
   selectedLocation: string | null;
 
   simulationResult: SimulationResult | null;
+  timelineProgress: number;
+
+setTimelineProgress: (progress: number) => void;
 
 setSimulationResult: (
   result: SimulationResult | null
@@ -31,6 +34,14 @@ setSimulationResult: (
   setParsing: (value: boolean) => void;
 
   setSimulating: (value: boolean) => void;
+  
+  currentTimelineStep: number;
+
+isTimelinePlaying: boolean;
+
+setCurrentTimelineStep: (step: number) => void;
+
+setTimelinePlaying: (playing: boolean) => void;
 
   reset: () => void;
 }
@@ -42,6 +53,9 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
   simulationResult: null,
   isParsing: false,
   isSimulating: false,
+  currentTimelineStep: 0,
+  timelineProgress: 0,
+isTimelinePlaying: false,
 
   setScenario: (scenario) =>
     set({ scenario }),
@@ -55,11 +69,20 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
   setSimulationResult: (simulationResult) =>
   set({ simulationResult }),
 
+  setTimelineProgress: (timelineProgress) =>
+  set({ timelineProgress }),
+
   setParsing: (isParsing) =>
     set({ isParsing }),
 
   setSimulating: (isSimulating) =>
     set({ isSimulating }),
+
+  setCurrentTimelineStep: (currentTimelineStep) =>
+  set({ currentTimelineStep }),
+
+setTimelinePlaying: (isTimelinePlaying) =>
+  set({ isTimelinePlaying }),
 
   reset: () =>
     set({
@@ -69,5 +92,8 @@ export const useScenarioStore = create<ScenarioStore>((set) => ({
       simulationResult: null,
       isParsing: false,
       isSimulating: false,
+      currentTimelineStep: 0,
+      isTimelinePlaying: false,
+      timelineProgress: 0,
     }),
 }));

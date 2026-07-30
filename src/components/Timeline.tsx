@@ -166,7 +166,8 @@ export default function Timeline() {
       </div>
 
       {/* Timeline */}
-      <div className="mt-6 flex-1 space-y-5">
+      <div className="mt-8 overflow-x-auto">
+        <div className="relative flex min-w-max items-start gap-16 pb-6"></div>
         {simulationResult.timeline.map((step, index) => {
           const active = index <= currentStep;
 

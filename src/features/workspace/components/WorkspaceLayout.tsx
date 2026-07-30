@@ -6,25 +6,46 @@ import AnalyticsPanel from "./AnalyticsPanel";
 
 export default function WorkspaceLayout() {
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-950">
+    <div className="flex h-screen overflow-hidden bg-[#020617] text-white">
+
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Workspace */}
+      {/* Main Workspace */}
       <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto flex max-w-[1800px] flex-col gap-8 p-8">
+        <div className="mx-auto flex min-h-screen max-w-[2000px] flex-col gap-6 p-6">
 
-          <EarthPanel />
+          {/* Hero Section */}
+          <div className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
 
-          <div className="grid items-stretch gap-8 xl:grid-cols-[1.25fr_0.75fr]">
-            <TimelinePanel />
-            <AnalyticsPanel />
+            {/* Earth */}
+            <div className="h-180">
+              <EarthPanel />
+            </div>
+
+            {/* Right Mission Control */}
+            <div className="flex h-180 flex-col gap-6">
+
+              <div className="flex-1">
+                <ResultsPanel />
+              </div>
+
+              <div className="flex-1">
+                <AnalyticsPanel />
+              </div>
+
+            </div>
+
           </div>
 
-          <ResultsPanel />
+          {/* Timeline */}
+          <div className="min-h-70">
+            <TimelinePanel />
+          </div>
 
         </div>
       </main>
+
     </div>
   );
 }

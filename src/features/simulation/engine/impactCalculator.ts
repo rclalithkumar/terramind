@@ -83,19 +83,28 @@ export function calculateImpact(
 
     timeline: [
   {
-    event: "Heavy rainfall begins",
-    severity: 30,
-    impact: "Water accumulation starts",
+    day: 1,
+    event: "Heavy Rain Begins",
+    severity: "Medium",
+    impact: 25,
   },
   {
-    event: "Drainage overflow",
-    severity: 60,
-    impact: "Low-lying areas affected",
+    day: 3,
+    event: "River Overflow",
+    severity: "High",
+    impact: 60,
   },
   {
-    event: "Flood peak",
-    severity: 95,
-    impact: "Major infrastructure impact",
+    day: 7,
+    event: "Flood Peak",
+    severity: "High",
+    impact: 95,
+  },
+  {
+    day: 14,
+    event: "Recovery Begins",
+    severity: "Medium",
+    impact: 40,
   },
 ],
 

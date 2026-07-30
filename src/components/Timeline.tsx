@@ -6,31 +6,24 @@ export default function Timeline() {
   const simulationResult = useScenarioStore(
     (state) => state.simulationResult
   );
-
   const currentStep = useScenarioStore(
     (state) => state.currentTimelineStep
   );
-
   const setCurrentTimelineStep = useScenarioStore(
     (state) => state.setCurrentTimelineStep
   );
-
   const isTimelinePlaying = useScenarioStore(
     (state) => state.isTimelinePlaying
   );
-
   const setTimelinePlaying = useScenarioStore(
     (state) => state.setTimelinePlaying
   );
-
   const timelineProgress = useScenarioStore(
     (state) => state.timelineProgress
   );
-
   const setTimelineProgress = useScenarioStore(
     (state) => state.setTimelineProgress
   );
-
   useEffect(() => {
     if (!simulationResult) return;
 
@@ -39,7 +32,6 @@ export default function Timeline() {
     setTimelineProgress(
       100 / simulationResult.timeline.length
     );
-
     setTimelinePlaying(true);
   }, [
     simulationResult,
@@ -199,16 +191,19 @@ export default function Timeline() {
                     : "bg-slate-600"
                 }`}
               />
+<p
+  className={`transition-colors duration-300 ${
+    active
+      ? "text-white"
+      : "text-slate-500"
+  }`}
+>
+  {step.event}
 
-              <p
-                className={`transition-colors duration-300 ${
-                  active
-                    ? "text-white"
-                    : "text-slate-500"
-                }`}
-              >
-                {step}
-              </p>
+  <span className="mt-1 block text-xs text-slate-400">
+    Severity: {step.severity}%
+  </span>
+</p>
             </motion.div>
           );
         })}

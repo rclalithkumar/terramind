@@ -20,7 +20,7 @@ export default function Sidebar() {
     top-0
     h-screen
     w-72
-    flex-shrink-0
+    shrink-0
     border-r
     border-white/10
     bg-slate-950/90

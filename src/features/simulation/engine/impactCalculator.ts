@@ -81,8 +81,23 @@ export function calculateImpact(
     estimatedLoss,
 
 
-    timeline:
-      profile.timeline,
+    timeline: [
+  {
+    event: "Heavy rainfall begins",
+    severity: 30,
+    impact: "Water accumulation starts",
+  },
+  {
+    event: "Drainage overflow",
+    severity: 60,
+    impact: "Low-lying areas affected",
+  },
+  {
+    event: "Flood peak",
+    severity: 95,
+    impact: "Major infrastructure impact",
+  },
+],
 
 
     recommendations:

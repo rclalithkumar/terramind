@@ -2,7 +2,8 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useEffect } from "react";
 import { MathUtils } from "three";
-
+import { useScenarioStore } from "@/store/scenarioStore";
+import { getRiskLevel } from "@/utils/riskLevel";
 import Earth from "./Earth";
 import Space from "./Space";
 import Marker from "./Marker";
@@ -21,6 +22,15 @@ export default function EarthCanvas({
   selectedLocation = null,
 }: EarthCanvasProps) {
 
+  const simulationResult = useScenarioStore(
+  (state) => state.simulationResult
+);
+
+const currentTimelineStep = useScenarioStore(
+  (state) => state.currentTimelineStep
+);
+
+
 
   useEffect(() => {
 
@@ -36,7 +46,7 @@ export default function EarthCanvas({
   }, [selectedLocation]);
 
 
-
+  
   const locationKey =
   selectedLocation
     ?.toLowerCase()
@@ -64,6 +74,10 @@ location
           1.06
         )
       : null;
+
+    const currentSeverity =
+simulationResult
+?.timeline[currentTimelineStep];
 
 
 
@@ -143,15 +157,21 @@ location
 
           <Marker
 
-            position={markerPosition}
+  position={markerPosition}
 
-            label={
- location?.name ?? "Unknown"
-}
+  label={
+    location?.name ?? "Unknown"
+  }
 
-            severity="High"
+  severity={
+    currentSeverity
+    ? getRiskLevel(
+        Number(currentSeverity.severity)
+      )
+    : "Low"
+  }
 
-          />
+/>
 
         )}
 
